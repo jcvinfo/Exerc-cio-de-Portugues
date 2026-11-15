@@ -1,0 +1,6 @@
+{
+  "name": "Estúdio de Exercícios — Língua Portuguesa & Google Drive",
+  "description": "Painel do professor para editar questões, personalizar a página da atividade e gerenciar ou publicar exercícios direcionados pelo Google Drive.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

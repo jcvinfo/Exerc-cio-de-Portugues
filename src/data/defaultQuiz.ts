@@ -1,0 +1,121 @@
+import { QuizProject } from '../types/quiz';
+
+export const DEFAULT_QUIZ_PROJECT: QuizProject = {
+  page: {
+    title: 'Desafio da Língua Portuguesa',
+    subtitle:
+      'Aprenda brincando! Responda a perguntas sobre os sentidos das palavras e confira sua pontuação no final.',
+    teacherName: 'Prof. Cláudio Lucena',
+    targetGroup: 'Semântica · Ensino Fundamental e Médio',
+    bullets: [
+      '10 questões de Semântica;',
+      'Correção e explicação imediatas;',
+      'Pontuação automática;',
+      'Funciona offline depois de salvo no dispositivo.',
+    ],
+    startButtonLabel: 'Começar atividade',
+    finishTitle: 'Atividade concluída!',
+    retryButtonLabel: 'Refazer atividade',
+    accentColor: '#2457a6',
+    lightTintColor: '#eef4ff',
+    pageBgColor: '#f3f6fb',
+    fontOption: 'sans',
+    cardRadius: 'rounded',
+    showOfflineNote: true,
+    resultMessages: {
+      perfect: 'Excelente! Você demonstrou ótimo domínio dos conceitos.',
+      great: 'Muito bom! Continue praticando para avançar ainda mais.',
+      good: 'Bom começo! Revise as explicações e tente novamente.',
+      retry:
+        'Continue estudando. Refazer a atividade vai ajudar a fixar os conceitos.',
+    },
+  },
+  questions: [
+    {
+      id: 'q-1',
+      q: "Qual palavra é sinônimo de 'feliz'?",
+      a: ['Triste', 'Contente', 'Bravo', 'Cansado'],
+      c: 1,
+      e: "'Contente' tem sentido semelhante a 'feliz'. Isso é sinonímia.",
+    },
+    {
+      id: 'q-2',
+      q: "Qual é o antônimo de 'claro' no sentido de luminosidade?",
+      a: ['Brilhante', 'Iluminado', 'Escuro', 'Transparente'],
+      c: 2,
+      e: "'Escuro' expressa sentido contrário a 'claro'. Isso é antonímia.",
+    },
+    {
+      id: 'q-3',
+      q: "Na frase 'A manga da camisa rasgou', a palavra 'manga' indica:",
+      a: ['Uma fruta', 'Parte da roupa', 'Uma ferramenta', 'Uma cor'],
+      c: 1,
+      e: "'Manga' pode nomear a fruta ou a parte de uma roupa. O contexto ajuda a identificar o sentido.",
+    },
+    {
+      id: 'q-4',
+      q: "Em 'Aquela notícia caiu como uma bomba', a expressão está em sentido:",
+      a: ['Denotativo', 'Conotativo', 'Literal', 'Técnico'],
+      c: 1,
+      e: 'A expressão não indica uma bomba real; transmite impacto ou surpresa. É sentido conotativo.',
+    },
+    {
+      id: 'q-5',
+      q: "Em 'O cachorro está no quintal', a palavra 'cachorro' está em sentido:",
+      a: ['Figurado', 'Conotativo', 'Denotativo', 'Ambíguo'],
+      c: 2,
+      e: 'A palavra nomeia diretamente o animal. É sentido denotativo.',
+    },
+    {
+      id: 'q-6',
+      q: 'Qual alternativa apresenta palavras homônimas?',
+      a: [
+        'Casa e lar',
+        'Banco (assento) e banco (instituição)',
+        'Bonito e belo',
+        'Alto e baixo',
+      ],
+      c: 1,
+      e: "'Banco' tem a mesma forma, mas sentidos diferentes. É um caso de homonímia.",
+    },
+    {
+      id: 'q-7',
+      q: "Qual palavra é antônimo de 'generoso'?",
+      a: ['Solidário', 'Bondoso', 'Egoísta', 'Gentil'],
+      c: 2,
+      e: "'Egoísta' apresenta sentido contrário ao de 'generoso'.",
+    },
+    {
+      id: 'q-8',
+      q: "Na frase 'Ele tem um coração de pedra', a expressão significa que ele é:",
+      a: ['Muito sensível', 'Insensível', 'Doente', 'Corajoso'],
+      c: 1,
+      e: "'Coração de pedra' é uma expressão figurada para indicar insensibilidade.",
+    },
+    {
+      id: 'q-9',
+      q: 'Qual alternativa apresenta sinônimos?',
+      a: [
+        'Começar e iniciar',
+        'Entrar e sair',
+        'Quente e frio',
+        'Dia e noite',
+      ],
+      c: 0,
+      e: "'Começar' e 'iniciar' possuem sentidos semelhantes.",
+    },
+    {
+      id: 'q-10',
+      q: 'Por que o contexto é importante para compreender uma palavra polissêmica?',
+      a: [
+        'Porque elimina todos os sentidos',
+        'Porque ajuda a identificar o sentido usado na situação',
+        'Porque muda a escrita da palavra',
+        'Porque impede a interpretação',
+      ],
+      c: 1,
+      e: 'Uma palavra polissêmica pode ter vários sentidos relacionados; o contexto ajuda a determinar qual deles está em uso.',
+    },
+  ],
+  driveLink: null,
+};

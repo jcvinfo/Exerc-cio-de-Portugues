@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desafio da Língua Portuguesa</title>
+<style>
+:root{--blue:#2457a6;--light:#eef4ff;--ink:#1e293b;--green:#16834a;--red:#bd3434}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:var(--ink);padding:20px}
+main{max-width:720px;margin:30px auto;background:white;border-radius:18px;padding:28px;box-shadow:0 8px 28px #17255418}
+h1{color:var(--blue);margin-top:0} .muted{color:#64748b;line-height:1.5}
+button{border:0;border-radius:10px;padding:13px 18px;font-size:16px;font-weight:700;cursor:pointer}
+.primary{background:var(--blue);color:white}.option{display:block;width:100%;text-align:left;background:var(--light);color:var(--ink);margin:10px 0;border:2px solid transparent}
+.option:hover:not(:disabled){border-color:var(--blue)} .option:disabled{cursor:default;opacity:1}
+.correct{background:#e7f7ed;border-color:var(--green)!important}.wrong{background:#fff0f0;border-color:var(--red)!important}
+#feedback{padding:14px;border-radius:10px;margin:16px 0;line-height:1.5;background:#f8fafc}
+#feedback.good{background:#e7f7ed}#feedback.bad{background:#fff0f0}
+.top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#475569;font-weight:700}
+.progress{height:9px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:14px 0 22px}.bar{height:100%;background:var(--blue);width:0;transition:width .2s}
+.hidden{display:none}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+@media(max-width:520px){body{padding:10px}main{margin:10px auto;padding:20px}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<main>
+  <section id="start">
+    <h1>Desafio da Língua Portuguesa</h1>
+    <p class="muted">Aprenda brincando! Responda a perguntas sobre os sentidos das palavras e confira sua pontuação no final.</p>
+    <ul class="muted">
+      <li>10 questões de Semântica;</li><li>Correção e explicação imediatas;</li>
+      <li>Pontuação automática;</li><li>Funciona offline depois de salvo no dispositivo.</li>
+    </ul>
+    <button class="primary" onclick="startQuiz()">Começar atividade</button>
+  </section>
+
+  <section id="quiz" class="hidden">
+    <div class="top"><span id="counter">Questão 1 de 10</span><span id="score">Pontos: 0</span></div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <h2 id="question"></h2>
+    <div id="options"></div>
+    <div id="feedback" class="hidden" aria-live="polite"></div>
+    <div class="actions"><button id="next" class="primary hidden" onclick="nextQuestion()">Próxima questão</button></div>
+  </section>
+
+  <section id="result" class="hidden">
+    <h1>Atividade concluída!</h1>
+    <h2 id="finalScore"></h2>
+    <p id="message" class="muted"></p>
+    <button class="primary" onclick="startQuiz()">Refazer atividade</button>
+  </section>
+</main>
+<script>
+const questions = [
+ {q:"Qual palavra é sinônimo de 'feliz'?",a:["Triste","Contente","Bravo","Cansado"],c:1,e:"'Contente' tem sentido semelhante a 'feliz'. Isso é sinonímia."},
+ {q:"Qual é o antônimo de 'claro' no sentido de luminosidade?",a:["Brilhante","Iluminado","Escuro","Transparente"],c:2,e:"'Escuro' expressa sentido contrário a 'claro'. Isso é antonímia."},
+ {q:"Na frase 'A manga da camisa rasgou', a palavra 'manga' indica:",a:["Uma fruta","Parte da roupa","Uma ferramenta","Uma cor"],c:1,e:"'Manga' pode nomear a fruta ou a parte de uma roupa. O contexto ajuda a identificar o sentido."},
+ {q:"Em 'Aquela notícia caiu como uma bomba', a expressão está em sentido:",a:["Denotativo","Conotativo","Literal","Técnico"],c:1,e:"A expressão não indica uma bomba real; transmite impacto ou surpresa. É sentido conotativo."},
+ {q:"Em 'O cachorro está no quintal', a palavra 'cachorro' está em sentido:",a:["Figurado","Conotativo","Denotativo","Ambíguo"],c:2,e:"A palavra nomeia diretamente o animal. É sentido denotativo."},
+ {q:"Qual alternativa apresenta palavras homônimas?",a:["Casa e lar","Banco (assento) e banco (instituição)","Bonito e belo","Alto e baixo"],c:1,e:"'Banco' tem a mesma forma, mas sentidos diferentes. É um caso de homonímia."},
+ {q:"Qual palavra é antônimo de 'generoso'?",a:["Solidário","Bondoso","Egoísta","Gentil"],c:2,e:"'Egoísta' apresenta sentido contrário ao de 'generoso'."},
+ {q:"Na frase 'Ele tem um coração de pedra', a expressão significa que ele é:",a:["Muito sensível","Insensível","Doente","Corajoso"],c:1,e:"'Coração de pedra' é uma expressão figurada para indicar insensibilidade."},
+ {q:"Qual alternativa apresenta sinônimos?",a:["Começar e iniciar","Entrar e sair","Quente e frio","Dia e noite"],c:0,e:"'Começar' e 'iniciar' possuem sentidos semelhantes."},
+ {q:"Por que o contexto é importante para compreender uma palavra polissêmica?",a:["Porque elimina todos os sentidos","Porque ajuda a identificar o sentido usado na situação","Porque muda a escrita da palavra","Porque impede a interpretação"],c:1,e:"Uma palavra polissêmica pode ter vários sentidos relacionados; o contexto ajuda a determinar qual deles está em uso."}
+];
+let index=0, points=0, answered=false;
+function show(id){["start","quiz","result"].forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==id))}
+function startQuiz(){index=0;points=0;show("quiz");render()}
+function render(){
+ answered=false;const q=questions[index];
+ document.getElementById("counter").textContent=`Questão ${index+1} de ${questions.length}`;
+ document.getElementById("score").textContent=`Pontos: ${points}`;
+ document.getElementById("bar").style.width=`${index/questions.length*100}%`;
+ document.getElementById("question").textContent=q.q;
+ const area=document.getElementById("options");area.innerHTML="";
+ q.a.forEach((answer,i)=>{const b=document.createElement("button");b.className="option";b.textContent=String.fromCharCode(65+i)+") "+answer;b.onclick=()=>choose(i);area.appendChild(b)});
+ document.getElementById("feedback").className="hidden";
+ document.getElementById("next").classList.add("hidden");
+}
+function choose(choice){
+ if(answered)return;answered=true;const q=questions[index], buttons=[...document.querySelectorAll(".option")], fb=document.getElementById("feedback");
+ buttons.forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add("correct");if(i===choice&&choice!==q.c)b.classList.add("wrong")});
+ if(choice===q.c){points++;fb.textContent="Muito bem! Resposta correta. "+q.e;fb.className="good"}else{fb.textContent="Não foi dessa vez. "+q.e;fb.className="bad"}
+ document.getElementById("score").textContent=`Pontos: ${points}`;
+ document.getElementById("next").textContent=index===questions.length-1?"Ver resultado":"Próxima questão";
+ document.getElementById("next").classList.remove("hidden");
+}
+function nextQuestion(){
+ if(index<questions.length-1){index++;render();}else{
+ show("result");document.getElementById("bar").style.width="100%";
+ document.getElementById("finalScore").textContent=`Você acertou ${points} de ${questions.length} questões.`;
+ document.getElementById("message").textContent=points===10?"Excelente! Você demonstrou ótimo domínio dos conceitos.":points>=7?"Muito bom! Continue praticando para avançar ainda mais.":points>=5?"Bom começo! Revise as explicações e tente novamente.":"Continue estudando. Refazer a atividade vai ajudar a fixar os conceitos.";
+ }}
+</script>
+</body>
+</html>
